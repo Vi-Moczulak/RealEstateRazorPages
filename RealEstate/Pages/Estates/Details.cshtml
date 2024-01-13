@@ -1,0 +1,55 @@
+﻿@page
+@model RealEstate.Pages.Estates.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Estate</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Estate.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Estate.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Estate.Price)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Estate.Price)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Estate.BedRooms)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Estate.BedRooms)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Estate.BathRooms)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Estate.BathRooms)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Estate.SquareFeet)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Estate.SquareFeet)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Estate.Type)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Estate.Type.Name)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.Estate.Id">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>
