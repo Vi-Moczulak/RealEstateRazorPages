@@ -11,7 +11,7 @@ using RealEstate.Models;
 
 namespace RealEstate.Pages.Estates
 {
-    public class EditModel : PageModel
+    public class EditModel : TypesNamePageModel
     {
         private readonly RealEstate.Data.RealEstateContext _context;
 
@@ -30,44 +30,44 @@ namespace RealEstate.Pages.Estates
                 return NotFound();
             }
 
-            var estate =  await _context.Estate.FirstOrDefaultAsync(m => m.Id == id);
-            if (estate == null)
+            Estate =  await _context.Estate.Include(t => t.Type).FirstOrDefaultAsync(m => m.Id == id);
+            if (Estate == null)
             {
                 return NotFound();
             }
-            Estate = estate;
-           ViewData["TypeId"] = new SelectList(_context.Set<Models.Type>(), "Id", "Name");
+
+            PopulateTypesDropDownList(_context, Estate.TypeId);
             return Page();
         }
 
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see https://aka.ms/RazorPagesCRUD.
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(int? id)
         {
-            if (!ModelState.IsValid)
+            if (id == null)
             {
-                return Page();
+                return NotFound();
             }
 
-            _context.Attach(Estate).State = EntityState.Modified;
+            var estateToUpdate = await _context.Estate.FindAsync(id);
 
-            try
+            if (estateToUpdate == null)
+            {
+                return NotFound();
+            }
+
+            if (await TryUpdateModelAsync<Estate>(
+                 estateToUpdate,
+                 "estate",
+                   e => e.Name,e => e.Price, e=> e.BedRooms, e=> e.BathRooms, e=> e.BedRooms, e=>e.SquareFeet, e => e.TypeId)
             {
                 await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!EstateExists(Estate.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return RedirectToPage("./Index");
             }
 
-            return RedirectToPage("./Index");
+            PopulateTypesDropDownList(_context, estateToUpdate.TypeId);
+            return Page();
+            
         }
 
         private bool EstateExists(int id)

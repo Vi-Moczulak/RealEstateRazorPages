@@ -5,10 +5,10 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Estates</h1>
 
 <p>
-    <a asp-page="Create">Create New</a>
+    <a asp-page="Create">Create New Estate</a>
 </p>
 
 
@@ -20,6 +20,7 @@
         </select>
         Name: <input type="text" asp-for="SearchString" />
         <input type="submit" value="Filter" />
+        <a asp-page="./Index">Back to full List</a>
     </p>
 </form>
 
@@ -27,19 +28,29 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Estate[0].Name)
+                <a asp-page="./Index" asp-route-sortField="name", asp-route-sortOrder="@Model.Order">
+                    @Html.DisplayNameFor(model => model.Estate[0].Name)
+                </a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Estate[0].Price)
+                <a asp-page="./Index" asp-route-sortField="price", asp-route-sortOrder="@Model.Order">
+                    @Html.DisplayNameFor(model => model.Estate[0].Price)
+                </a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Estate[0].BedRooms)
+                <a asp-page="./Index" asp-route-sortField="bedRooms" , asp-route-sortOrder="@Model.Order">
+                    @Html.DisplayNameFor(model => model.Estate[0].BedRooms)
+                </a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Estate[0].BathRooms)
+                <a asp-page="./Index" asp-route-sortField="bathRooms" , asp-route-sortOrder="@Model.Order">
+                    @Html.DisplayNameFor(model => model.Estate[0].BathRooms)
+                </a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Estate[0].SquareFeet)
+                <a asp-page="./Index" asp-route-sortField="squareFeet" , asp-route-sortOrder="@Model.Order">
+                    @Html.DisplayNameFor(model => model.Estate[0].SquareFeet)
+                </a>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Estate[0].Type)

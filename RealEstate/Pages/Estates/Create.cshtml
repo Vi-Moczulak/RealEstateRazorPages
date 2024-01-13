@@ -39,9 +39,9 @@
                 <span asp-validation-for="Estate.SquareFeet" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Estate.TypeId" class="control-label">Select estate type</label>
-                <select asp-for="Estate.TypeId" class ="form-control" asp-items="ViewBag.TypeId">
-                    <option value="">-- Diffrent --</option>
+                <label asp-for="Estate.Type" class="control-label">Select estate type</label>
+                <select asp-for="Estate.TypeId" class ="form-control" asp-items="@Model.TypeNameSL">
+                    <option value="">-- Select Type --</option>
                 </select>
             </div>
             <div class="form-group">

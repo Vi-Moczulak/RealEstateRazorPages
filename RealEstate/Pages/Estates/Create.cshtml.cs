@@ -11,8 +11,7 @@ using RealEstate.Models;
 
 namespace RealEstate.Pages.Estates
 {
-    [AllowAnonymous]
-    public class CreateModel : PageModel
+    public class CreateModel : TypesNamePageModel
     {
         private readonly RealEstate.Data.RealEstateContext _context;
 
@@ -23,25 +22,35 @@ namespace RealEstate.Pages.Estates
 
         public IActionResult OnGet()
         {
-        ViewData["TypeId"] = new SelectList(_context.Set<Models.Type>(), "Id", "Name");
+
+            PopulateTypesDropDownList(_context);
             return Page();
         }
 
         [BindProperty]
         public Estate Estate { get; set; } = default!;
 
-        // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
+            
+            var emptyEstate = new Estate();
+
+            if(await TryUpdateModelAsync<Estate>(
+                emptyEstate,
+                "estate",
+                e=>e.Name, e=>e.Price, e=> e.BedRooms, e=> e.BathRooms, e=> e.SquareFeet, e=> e.TypeId))
             {
-                return Page();
+
+                _context.Estate.Add(emptyEstate);
+                await _context.SaveChangesAsync();
+                return RedirectToPage("./Index");
             }
 
-            _context.Estate.Add(Estate);
-            await _context.SaveChangesAsync();
 
-            return RedirectToPage("./Index");
+            PopulateTypesDropDownList(_context, emptyEstate.TypeId);
+            return Page();
+
+           
         }
     }
 }
